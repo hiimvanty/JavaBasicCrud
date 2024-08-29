@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Quản trị ORDERS</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <!-- Import Datatable sau jquery -->
+  <!-- Import them style bootstrap cho datatable -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css">
+  <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      var table = $("#user-table").DataTable({
+        // Khai báo các cột của datatable (Chú ý tên cột phải giống thuộc tính của object trong mảng đã khai báo)
+        "columns": [
+          { "data": "id" },
+          { "data": "orderCode" },
+          { "data": "customerId" },
+          { "data": "productId" },
+          { "data": "pizzaSize" },
+          { "data": "pizzaType" },
+          { "data": "voucherCode" },
+          { "data": "price" },
+          { "data": "paid" },
+        ]
+      });
+
+      $.ajax({
+        url: "http://localhost:8088/api/orders",
+        type: "GET",
+        dataType: 'json',
+        success: function (responseObject) {
+          console.log(responseObject);
+          //Xóa toàn bộ dữ liệu đang có của bảng
+          table.clear();
+
+          //Cập nhật data cho bảng 
+          table.rows.add(responseObject);
+
+          //Cập nhật lại giao diện hiển thị bảng
+          table.draw();
+        },
+        error: function (error) {
+          console.log(error.responseText);
+        }
+      });
+    });
+  </script>
+</head>
+
+<body>
+
+  <div class="container">
+    <h2 style="text-align: center;">Quản trị ORDERS</h2>
+    <div class="jumbotron container">
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="Order Code">Order Code</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-Order Code" name="vouchercodes" placeholder="Order Code" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="customerId">Customer ID</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="number" id="input-customerId" name="customerId" placeholder="customerId" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="productId">Product Id</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-productId" name="productId" placeholder="productId" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="voucherCode">Voucher Code</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-voucherCode" name="voucherCode" placeholder="voucherCode" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="price">Price</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-price" name="price" placeholder="price" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="pizzaSize">Pizza Size</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-pizzaSize" name="pizzaSize" placeholder="Pizza Size" class="form-control">
+        </div>
+      </div>
+      <div class="row form-group">
+        <div class="col-sm-3">
+          <label for="pizzaType">Pizza Type</label>
+        </div>
+        <div class="col-sm-9">
+          <input type="text" id="input-pizzaType" name="pizzaType" placeholder="pizzaType" class="form-control">
+        </div>
+      </div>
+      <div class="row pull-right">
+        <div class="col-sm-12">
+          <button id="save_data" class="btn btn-info">Save Data</button>
+        </div>
+      </div>
+    </div>
+    <table class="table table-bordered table-striped table-hover" id="user-table">
+      <thead>
+        <tr>
+          <th>STT</th>
+          <th>Order CODE </th>
+          <th>Customer ID</th>
+          <th>Product ID</th>
+          <th>Pizza SIZE</th>
+          <th>Pizza TYPE</th>
+          <th>Voucher CODE</th>
+          <th>Price</th>
+          <th>Paid</th>
+        </tr>
+    </table>
+  </div>
+
+</body>
+
+</html>
+​
